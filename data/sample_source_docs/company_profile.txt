@@ -1,9 +1,9 @@
-Компания EMCO — ведущий производитель оборудования для горнодобывающей промышленности, основанная в 2010 году. Головной офис компании расположен в Москве по адресу: улица Промышленная, дом 12.
+The company NexoraTech is a pioneering manufacturer of advanced robotics equipment, established in 2015. Its headquarters are located in San Francisco at 88 Innovation Drive. NexoraTech provides its employees with a comprehensive benefits package, including private health insurance, meal stipends, shuttle services, and an annual performance bonus. The company structure includes the following key departments:
 
-EMCO предоставляет своим сотрудникам расширенный социальный пакет, включающий добровольное медицинское страхование (ДМС), компенсацию питания, корпоративный транспорт и бонусную систему.
+Research and Development Division
 
-В структуру компании входят следующие ключевые подразделения:
-- Департамент инноваций
-- Отдел стратегического анализа
-- Финансовая служба
-- Отдел кадров (HR)
+Market Intelligence Unit
+
+Financial Operations Department
+
+Human Resources (HR) and Talent Management
