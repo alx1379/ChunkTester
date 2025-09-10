@@ -23,10 +23,10 @@ def show_fails(run_id: str = None):
             if line.strip() and json.loads(line)["score"] <= 0
         ]
 
-    print(f"🔍 Найдено плохих ответов: {len(bad_results)}\n")
+    print(f"🔍 Found bad responses: {len(bad_results)}\n")
 
     for r in bad_results:
         print("❓", r["query"])
         print("🧠", r["answer"])
         print("📌", f"score = {r['score']}")
-        print("📚 chunks:", r["retrieved_chunks"][:5], "...\n")  # Можно расширить
+        print("📚 chunks:", r["retrieved_chunks"][:5], "...\n")  # Can be expanded

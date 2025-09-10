@@ -7,14 +7,14 @@ from configs.settings import (
     PROXY_URL
 )
 
-# Статистика по использованию LLM
+# LLM usage statistics
 stats = {
     "gen_tokens": 0,
     "embed_tokens": 0,
     "calls": 0
 }
 
-# Настраиваем OpenAI-клиент с прокси (если указано)
+# Configure OpenAI client with proxy (if specified)
 if USE_PROXY and PROXY_URL:
     transport = httpx.HTTPTransport(proxy=PROXY_URL, verify=False)
     http_client = httpx.Client(transport=transport)
@@ -28,10 +28,10 @@ def generate_llm_answer(prompt: str, model: str = "gpt-4o-mini") -> str:
         model=model,
         messages=[
             {"role": "system", "content": (
-                "Ты — строго функциональный помощник. Отвечай исключительно по предоставленному контексту. "
-                "Не проявляй инициативу, не выражай заботу и не предлагай помощь. "
-                "Не добавляй вежливых фраз в конце ответа (например, 'Если у вас есть вопросы...'). "
-                "Ответ должен быть точным, кратким и строго по делу, как в технической документации."
+"You are a strictly functional assistant. Respond exclusively based on the provided context. "
+                "Don't take initiative, express concern, or offer help. "
+                "Don't add polite phrases at the end of your response (e.g., 'If you have any questions...'). "
+                "Your response should be precise, concise, and strictly to the point, like in technical documentation."
             )},        
             {"role": "user", "content": prompt}
         ],

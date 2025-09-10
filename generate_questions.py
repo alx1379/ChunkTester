@@ -2,22 +2,22 @@ import os
 import json
 
 from utils.document_loader import load_all_documents
-from llm.generate import call_llm  # Твоя обёртка вокруг openai_client
+from llm.generate import call_llm  # Your wrapper around openai_client
 
 QUESTION_PROMPT = (
-    "Прочитай следующий текст:\n\n{text}\n\n"
-    "1. Выдели все конкретные факты из текста: даты, фамилии, организации, технические параметры и т.п.\n"
-    "2. Затем сгенерируй два вопроса:\n\n"
-    "- Один **positive**: на который есть чёткий и точный ответ в тексте, использующий хотя бы один из найденных фактов.\n"
-    "- Один **negative**: сформулируй реалистичный вопрос, относящийся к теме текста, но так, чтобы **в нём НЕ использовался ни один из выделенных фактов**. Придумай новый факт, который звучит правдоподобно, но **не встречается в тексте**.\n\n"
-    "Формат ответа строго JSON:\n\n"
+    """Read the following text:\n\n{text}\n\n"""
+    "1. Extract all specific facts from the text: dates, names, organizations, technical parameters, etc.\n"
+    "2. Then generate two questions:\n\n"
+    "- One **positive**: a question that has a clear and precise answer in the text, using at least one of the identified facts.\n"
+    "- One **negative**: formulate a realistic question related to the text's topic, but **without using any of the identified facts**. Invent a new fact that sounds plausible but **does not appear in the text**.\n\n"
+    "Response format must be strict JSON:\n\n"
     "{\n"
     '  "positive": {\n'
-    '    "query": "вопрос",\n'
-    '    "expected_keywords": ["ключевое", "слово"]\n'
+    '    "query": "question",\n'
+    '    "expected_keywords": ["key", "word"]\n'
     "  },\n"
     '  "negative": {\n'
-    '    "query": "вопрос",\n'
+    '    "query": "question",\n'
     '    "expected_keywords": []\n'
     "  }\n"
     "}"
@@ -27,7 +27,7 @@ def generate_questions_for_document(text: str) -> list[dict]:
     prompt = QUESTION_PROMPT.replace("{text}", text.strip())
     result = call_llm(prompt).strip()
 
-    # Убираем Markdown-блок, если LLM его добавил
+    # Remove Markdown block if LLM added it
     if result.startswith("```"):
         result = result.strip("`")
         if result.startswith("json"):
@@ -40,7 +40,7 @@ def generate_questions_for_document(text: str) -> list[dict]:
             parsed["negative"]
         ]
     except Exception as e:
-        print(f"⚠️ Не удалось распарсить JSON: {result}\nОшибка: {e}")
+        print(f"⚠️ Failed to parse JSON: {result}\nError: {e}")
         return []
 
 def main():
@@ -50,7 +50,7 @@ def main():
 
     with open(output_path, "w", encoding="utf-8") as f:
         for doc in documents:
-            print(f"📄 Обработка документа: {doc['name']}")
+            print(f"📄 Processing document: {doc['name']}")
             questions = generate_questions_for_document(doc["text"])
             for q in questions:
                 f.write(json.dumps(q, ensure_ascii=False) + "\n")

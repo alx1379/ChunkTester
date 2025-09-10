@@ -3,15 +3,15 @@ from cleaners.heuristics import INSTRUCTION_PATTERNS
 
 def clean_chunk(text: str) -> str:
     """
-    Удаляет из текста инструкции, системные фразы, служебные вставки и вводные фразы.
-    Используется только если clean_context_instructions = true.
+    Removes instructions, system phrases, service inserts, and introductory phrases from the text.
+    Only used if clean_context_instructions = true.
     """
     cleaned = text
 
     for pattern in INSTRUCTION_PATTERNS:
         cleaned = re.sub(pattern, "", cleaned, flags=re.IGNORECASE)
 
-    # Убираем множественные пробелы и пустые строки
+    # Remove multiple spaces and empty lines
     cleaned = re.sub(r"\n{2,}", "\n", cleaned)
     cleaned = re.sub(r"[ \t]{2,}", " ", cleaned).strip()
 
@@ -19,12 +19,12 @@ def clean_chunk(text: str) -> str:
 
 def clean_chunks(chunks: list[dict]) -> list[dict]:
     """
-    Удаляет из чанков строки, которые содержат явные инструкции типа:
-    - 'Ответь на этот вопрос:'
-    - 'Вопрос:'
-    - 'Ты — ассистент...'
+    Removes from chunks lines that contain explicit instructions like:
+    - 'Answer this question:'
+    - 'Question:'
+    - 'You are an assistant...'
 
-    Простой фильтр — можно доработать по регуляркам.
+    Simple filter - can be enhanced with more regex patterns.
     """
     cleaned = []
     for ch in chunks:
@@ -32,7 +32,7 @@ def clean_chunks(chunks: list[dict]) -> list[dict]:
         lines = text.splitlines()
         filtered = [
             line for line in lines
-            if not any(bad in line.lower() for bad in ["вопрос:", "ответь", "ты —", "инструкция"])
+            if not any(bad in line.lower() for bad in ["question:", "answer", "you are", "instruction", "assistant:"])
         ]
         ch["chunk"] = "\n".join(filtered).strip()
         cleaned.append(ch)

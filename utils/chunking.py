@@ -6,13 +6,13 @@ import re
 # raw: chunk_size and overlap in chars
 def chunk_text(text: str, strategy: str = "by_words", chunk_size: int = 300, overlap: int = 50) -> list[str]:
     """
-    Разбивает текст на чанки в соответствии со стратегией.
+    Splits text into chunks according to the specified strategy.
     
     strategy:
-        - raw: один большой чанк
-        - by_paragraphs: по абзацам
-        - by_sentences: по предложениям
-        - by_words: по количеству слов
+        - raw: one large chunk
+        - by_paragraphs: by paragraphs
+        - by_sentences: by sentences
+        - by_words: by word count
     """
 
     if strategy == "raw":
@@ -41,7 +41,7 @@ def chunk_text(text: str, strategy: str = "by_words", chunk_size: int = 300, ove
     else:
         raise ValueError(f"Unknown strategy: {strategy}")
 
-    # Общая логика для by_paragraphs и by_sentences
+    # Common logic for by_paragraphs and by_sentences
     buffer = []
     char_count = 0
 
@@ -53,9 +53,9 @@ def chunk_text(text: str, strategy: str = "by_words", chunk_size: int = 300, ove
             chunk = " ".join(buffer)
             chunks.append(chunk)
 
-            # Подготавливаем overlap (по словам)
+            # Prepare overlap (by words)
             if overlap > 0:
-                # Примерная обратная нарезка
+                # Approximate reverse slicing
                 overlap_words = chunk.split()[-overlap:]
                 buffer = [" ".join(overlap_words)]
                 char_count = count_words(buffer[0])
@@ -69,31 +69,31 @@ def chunk_text(text: str, strategy: str = "by_words", chunk_size: int = 300, ove
     return chunks
 
 def chunk_text_tester():
-    test_text = """Это абзац номер 0. Это первый абзац.
-Это второй абзац, он длиннее.
-Третье предложение. Четвертое предложение!
-Пятое предложение?
+    test_text = """This is paragraph number 0. This is the first paragraph.
+This is the second paragraph, it's longer.
+Third sentence. Fourth sentence!
+Fifth sentence?
 """
 
     # Test raw strategy
     print("\n=== raw ===")
     chunks = chunk_text(test_text, "raw")
-    print("Чанки:", chunks)
+    print("Chunks:", chunks)
     
     # Test by_paragraphs strategy
     print("\n=== by_paragraphs ===")
     chunks = chunk_text(test_text, "by_paragraphs", chunk_size=50, overlap=2)
-    print("Чанки:", chunks)
+    print("Chunks:", chunks)
     
     # Test by_sentences strategy
     print("\n=== by_sentences ===")
     chunks = chunk_text(test_text, "by_sentences", chunk_size=10, overlap=0)
-    print("Чанки:", chunks)
+    print("Chunks:", chunks)
     
     # Test by_words strategy
     print("\n=== by_words ===")
     chunks = chunk_text(test_text, "by_words", chunk_size=3, overlap=0)
-    print("Чанки:", chunks)
+    print("Chunks:", chunks)
 
-# Запуск тестера
+# Run the tester
 # chunk_text_tester()

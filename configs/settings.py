@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-# Путь до .env от текущего файла
+# Path to .env from current file
 ENV_PATH = os.path.join(os.path.dirname(__file__), ".env")
 load_dotenv(dotenv_path=ENV_PATH)
 

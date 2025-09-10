@@ -9,7 +9,7 @@ from configs.settings import (
     PROXY_URL
 )
 
-# Настраиваем кастомный httpx transport (если нужен прокси)
+# Configure custom httpx transport (if proxy is needed)
 if USE_PROXY and PROXY_URL:
     transport = httpx.HTTPTransport(proxy=PROXY_URL, verify=False)
     http_client = httpx.Client(transport=transport)
@@ -20,19 +20,19 @@ else:
 
 def retrieve_chunks(query: str, config: dict, run_id: str) -> list[str]:
     """
-    Выполняет embedding запроса с помощью OpenAI и извлекает ближайшие чанки из ChromaDB.
+    Performs query embedding using OpenAI and retrieves the closest chunks from ChromaDB.
     """
     top_k = config["retrieval"]["top_k"]
     model = config.get("embedding", {}).get("model", OPENAI_MODEL)
 
-    # Получаем эмбеддинг запроса
+    # Get query embedding
     embedding_response = openai_client.embeddings.create(
         model=model,
         input=query
     )
     query_embedding = embedding_response.data[0].embedding
 
-    # Подключаемся к ChromaDB
+    # Connect to ChromaDB
     client = chromadb.PersistentClient(path=f"embeddings/{run_id}")
     collection = client.get_or_create_collection("rag_eval")
     print("Total documents in collection:", collection.count())

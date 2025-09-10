@@ -2,21 +2,21 @@ from llm.generate import generate_llm_answer
 
 def score_answer_llm(query: str, expected: str, actual: str, retrieved_chunks: list[str]) -> int:
     """
-    Оценивает корректность и релевантность ответа с учётом retrieved_chunks.
+    Evaluates the correctness and relevance of the answer considering the retrieved_chunks.
     """
     chunks_text = "\n---\n".join(retrieved_chunks)
 
     prompt = (
-        f"Пользователь задал вопрос:\n\n{query}\n\n"
-        f"Ассистент ответил:\n\n{actual}\n\n"
-        f"Ожидаемая информация (ключевые слова, которые должны быть в ответе):\n\n{expected}\n\n"
-        f"Контекст, предоставленный ассистенту (retrieved_chunks):\n\n{chunks_text}\n\n"
-        "Оцени ответ по шкале:\n"
-        "- `+1`: Ответ содержит **все или большую часть** ключевой информации из ожиданий.\n"
-        "- `0`: Ассистент **не ответил на вопрос**, отказался отвечать или ушёл от темы.\n"
-        "- `-1`: Ассистент **дал уверенный, но неверный ответ**, не соответствующий ожиданиям или контексту.\n\n"
-        "**Важно:** Не ставь +1, если ассистент честно отказался от ответа, и не привёл ожидаемой информации.\n"
-        "Ответ: Только одно из: +1, 0, -1."
+        f"User asked the following question:\n\n{query}\n\n"
+        f"Assistant responded with:\n\n{actual}\n\n"
+        f"Expected information (keywords that should be in the answer):\n\n{expected}\n\n"
+        f"Context provided to the assistant (retrieved_chunks):\n\n{chunks_text}\n\n"
+        "Rate the answer on the following scale:\n"
+        "- `+1`: The answer contains **all or most** of the key information from the expectations.\n"
+        "- `0`: The assistant **did not answer the question**, refused to answer, or went off-topic.\n"
+        "- `-1`: The assistant **provided a confident but incorrect answer** that doesn't match the expectations or context.\n\n"
+        "**Important:** Do not give +1 if the assistant honestly refused to answer and didn't provide the expected information.\n"
+        "Response: Only one of: +1, 0, -1."
     )
 
     print(">>> SCORER:", prompt)
@@ -33,19 +33,20 @@ def score_answer_llm(query: str, expected: str, actual: str, retrieved_chunks: l
 
 def score_answer_llm_negative(query: str, actual: str, retrieved_chunks: list[str]) -> int:
     """
-    Оценивает поведение ассистента на негативный (контрольный) вопрос, с учётом retrieved_chunks.
+    Evaluates the assistant's behavior on a negative (control) question, considering the retrieved_chunks.
     """
     chunks_text = "\n---\n".join(retrieved_chunks)
 
     prompt = (
-        f"Пользователь задал вопрос:\n\n{query}\n\n"
-        f"Ассистент ответил:\n\n{actual}\n\n"
-        f"Контекст, предоставленный ассистенту:\n\n{chunks_text}\n\n"
-        "Проанализируй ответ и оцени строго по этой шкале:\n"
-        "- `+1`: Ассистент честно указал, что не знает или информации нет.\n"
-        "- `0`: Ассистент дал нерелевантный, общий или бессмысленный ответ.\n"
-        "- `-1`: Ассистент уверенно выдумал информацию, которой нет в контексте.\n\n"
-        "Ответ: Только одно из: +1, 0, -1."
+        f"User asked the following question:\n\n{query}\n\n"
+        f"Assistant responded with:\n\n{actual}\n\n"
+        f"Context provided to the assistant:\n\n{chunks_text}\n\n"
+        "Analyze the response and rate it strictly on this scale:\n"
+        "- `+1`: The assistant **correctly stated that it cannot answer** the question because the context lacks the necessary information.\n"
+        "- `0`: The assistant did not provide a clear answer, went off-topic, or responded with overly general phrases.\n"
+        "- `-1`: The assistant **confidently answered the question** when it shouldn't have (this is a negative test, and the correct answer should be 'I don't know').\n\n"
+        "**Important:** If the assistant couldn't find the answer in the context and honestly admitted it — give +1.\n"
+        "Response: Only one of: +1, 0, -1."
     )
 
     print(">>> NEG SCORER:", prompt)

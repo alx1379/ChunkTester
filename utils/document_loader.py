@@ -2,8 +2,8 @@ from pathlib import Path
 
 def load_all_documents(folder: str) -> list[dict]:
     """
-    Загружает все .txt файлы из папки и возвращает список словарей:
-    {"name": <имя файла>, "text": <содержимое>}
+    Loads all .txt files from a folder and returns a list of dictionaries:
+    {"name": <filename>, "text": <content>}
     """
     docs = []
     for path in Path(folder).glob("*.txt"):
