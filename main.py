@@ -31,7 +31,7 @@ def main():
 
     # show_fails
     show_parser = subparsers.add_parser("show_fails")
-    show_parser.add_argument("--run_id", required=False, help="ID прогона (если не задан — берётся из embeddings/run_id.txt)")
+    show_parser.add_argument("--run_id", required=False, help="Run ID (if not specified, taken from embeddings/run_id.txt)")
 
     # generate_summary
     summary_parser = subparsers.add_parser("summary")

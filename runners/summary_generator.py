@@ -3,8 +3,8 @@ import json
 
 def extract_datetime_from_run_id(run_id: str) -> str:
     """
-    Возвращает часть вида YYYYMMDD_HHMMSS из run_id, если есть.
-    Например: sweep_abc123_20250601_093810 → 20250601_093810
+    Returns the YYYYMMDD_HHMMSS part from run_id if present.
+    Example: sweep_abc123_20250601_093810 → 20250601_093810
     """
     parts = run_id.split("_")
     return parts[-2] + "_" + parts[-1] if len(parts) >= 3 else ""

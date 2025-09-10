@@ -22,12 +22,12 @@ def run_eval(config: dict, run_id: str = None, query_file: str = "data/queries.j
             with open("embeddings/run_id.txt", "r", encoding="utf-8") as f:
                 run_id = f.read().strip()
         except FileNotFoundError:
-            raise ValueError("❌ run_id не передан и не найден файл embeddings/run_id.txt")
+            raise ValueError(" run_id not passed and embeddings/run_id.txt file not found")
 
     output_dir = Path(f"results/{run_id}")
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Загружаем вопросы
+    # Load questions
     with open(query_file, "r", encoding="utf-8") as f:
         queries = [json.loads(line) for line in f if line.strip()]
 
@@ -57,12 +57,12 @@ def run_eval(config: dict, run_id: str = None, query_file: str = "data/queries.j
         answer = generate_llm_answer(prompt)
 
         # 4. Score the answer
-        if not expected:  # это негативный вопрос
+        if not expected:  # this is a negative question
             score = score_answer_llm_negative(query, answer, retrieved)
         else:
             score = score_answer_llm(query, expected, answer, retrieved)
 
-        # 5. Save to results (с гарантией, что score — первый ключ)
+        # 5. Save to results (ensuring score is the first key)
         result = OrderedDict([
             ("score", score),
             ("query", query),

@@ -15,7 +15,7 @@ from cleaners.chunk_cleaner import clean_chunks
 def run_chunk_and_embed(config: dict) -> str:
     log_step("🔨 Start chunking and embedding")
 
-    # Уникальный run_id
+    # Unique run_id
 #    hash_part = hashlib.sha1(str(config).encode()).hexdigest()[:8]
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 #    run_id = f"sweep_{hash_part}_{timestamp}"
@@ -23,7 +23,7 @@ def run_chunk_and_embed(config: dict) -> str:
 #    output_path = f"embeddings/{run_id}"
 #    os.makedirs(output_path, exist_ok=True)
 
-    # Загрузка и чанкование документов
+    # Loading and chunking documents
     documents = load_all_documents("data/source_docs/")
     all_chunks = []
     for doc in documents:
@@ -45,16 +45,16 @@ def run_chunk_and_embed(config: dict) -> str:
     output_path = f"embeddings/{run_id}"
     os.makedirs(output_path, exist_ok=True)
 
-    # Очистка инструкций из чанков (опционально)
+    # Clean instructions from chunks (optional)
     if config.get("clean_context_instructions", False):
         all_chunks = clean_chunks(all_chunks)
         log_step("🧹 Cleaned chunks")
 
-    # Получение эмбеддингов
+    # Getting embeddings
     chunk_texts = [c["chunk"] for c in all_chunks]
     embeddings = embed_chunks(chunk_texts, model=config["embedding"]["model"])
 
-    # Создание коллекции ChromaDB и загрузка чанков
+    # Creating ChromaDB collection and loading chunks
     client = chromadb.PersistentClient(path=output_path)
     collection = client.get_or_create_collection("rag_eval")
 
@@ -70,7 +70,7 @@ def run_chunk_and_embed(config: dict) -> str:
 
     log_step(f"✅ Embedding finished and saved to {output_path}")
 
-    # Сохраняем run_id
+    # Save run_id
     with open(os.path.join("embeddings/", "run_id.txt"), "w", encoding="utf-8") as f:
         f.write(run_id)
 
