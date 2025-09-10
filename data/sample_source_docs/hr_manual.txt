@@ -1,9 +1,8 @@
-Руководителем отдела HR является Галина Игоревна Смирнова.
+The head of the HR department is Emily Jane Thompson.
+All questions related to vacations, sick leaves, compensations, and personnel changes are processed through the HRConnect portal. Access is granted via corporate login credentials.
+Contact information:
 
-Все вопросы, связанные с отпусками, больничными, компенсациями и кадровыми изменениями, обрабатываются через портал HRLink. Доступ к нему осуществляется по корпоративной учётной записи.
+email: hr@nexoratech.com
 
-Контактная информация:
-- email: hr@emco.company
-- внутренний номер: 3021
-
-Документы по командировке необходимо отправлять на адрес: buhgalteria@emco.company, в теме письма указывайте: "Командировка / ФИО".
+internal extension: 4582
+Travel expense documents should be sent to: accounting@nexoratech.com, with the subject line: "Business Trip / Full Name".
