@@ -1,2 +1,2 @@
-{"query": "Позитивный вопрос на который есть ответ в документе?", "expected_keywords": ["Ответ вот такой"]}
-{"query": "Негативынй вопрос на который нет ответа в документа? B expected_keyword = None", "expected_keywords": []}
+{"query": "A positive question to which there is an answer in the document?", "expected_keywords": ["The answer is as follows"]}
+{"query": "A negative question to which there is no answer in the document? B expected_keyword = None", "expected_keywords": []}
