@@ -1,59 +1,59 @@
-
-```markdown
+````markdown
 # 🧪 RAG ChunkTester
 
-**RAG ChunkTester** — это фреймворк для автоматического тестирования качества Retrieval-Augmented Generation систем. Он позволяет быстро оценивать влияние разных стратегий чанкования, настройки эмбеддинга, параметров ретривера и промпта.
+**RAG ChunkTester** is a framework for automated testing of Retrieval-Augmented Generation (RAG) systems.  
+It allows you to quickly evaluate the impact of different chunking strategies, embedding configurations, retriever parameters, and prompts.
 
 ---
 
-## 📁 Структура проекта
+## 📁 Project Structure
 
 chunktester/
-├── main.py                    # Точка входа: запуск chunking, eval, sweep, summary
-├── runners/                  # Исполняющие модули
-│   ├── chunk\_and\_embed.py
-│   ├── eval\_runner.py
-│   └── sweep\_runner.py
-├── utils/                    # Вспомогательные утилиты
-│   ├── config\_loader.py
-│   ├── document\_loader.py
+├── main.py                    # Entry point: run chunking, eval, sweep, summary
+├── runners/                   # Execution modules
+│   ├── chunk_and_embed.py
+│   ├── eval_runner.py
+│   └── sweep_runner.py
+├── utils/                     # Utility helpers
+│   ├── config_loader.py
+│   ├── document_loader.py
 │   ├── chunking.py
 │   ├── embedding.py
 │   ├── retriever.py
 │   └── logger.py
-├── cleaners/                 # Опциональная очистка чанков
-│   └── chunk\_cleaner.py
+├── cleaners/                  # Optional chunk cleaning
+│   └── chunk_cleaner.py
 ├── scorers/
-│   └── llm\_scorer.py         # Оценка ответа (+1 / 0 / -1)
+│   └── llm_scorer.py          # Response evaluation (+1 / 0 / -1)
 ├── prompts/
-│   └── system\_prompt.txt     # Инструкция для LLM
+│   └── system_prompt.txt      # Instruction for LLM
 ├── configs/
-│   ├── eval\_config.yaml      # Конфиг для одного прогона
-│   ├── sweep\_grid.yaml       # Grid-перебор параметров
-│   └── settings.py           # Ключи и прокси из .env
+│   ├── eval_config.yaml       # Config for a single run
+│   ├── sweep_grid.yaml        # Grid search parameters
+│   └── settings.py            # Keys and proxy from .env
 ├── data/
-│   ├── source\_docs/          # Документы для чанкования
-│   └── queries.jsonl         # Вопросы + ожидаемые ключевые слова
-├── embeddings/               # Хранилище ChromaDB (одна папка на каждый запуск)
-├── results/                  # Результаты оценок (одна папка на запуск)
-├── .env                      # API ключи и опции
+│   ├── source_docs/           # Documents for chunking
+│   └── queries.jsonl          # Queries + expected keywords
+├── embeddings/                # ChromaDB storage (one folder per run)
+├── results/                   # Evaluation results (one folder per run)
+├── .env                       # API keys and options
 ├── .gitignore
 └── requirements.txt
 
 ---
 
-## 🚀 Быстрый старт
+## 🚀 Quick Start
 
-1. **Установи зависимости и создай виртуальное окружение:**
+1. **Set up dependencies and create a virtual environment:**
 
 ```bash
 python -m venv venv
 source venv/bin/activate # for Unix
-.\venv\Scripts\activate.bat # for windows
+.\venv\Scripts\activate.bat # for Windows
 pip install -r requirements.txt
 ````
 
-2. **Настрой `.env` с ключами:**
+2. **Configure `.env` with your keys:**
 
 ```env
 OPENAI_API_KEY=sk-...
@@ -62,27 +62,27 @@ PROXY_URL=http://localhost:8080
 OPENAI_MODEL=gpt-4
 ```
 
-3. **Положи документы в `data/source_docs/`** (`.txt`, `.md`, и т.д.)
+3. **Place documents into `data/source_docs/`** (`.txt`, `.md`, etc.)
 
-4. **Определи запросы в `data/queries.jsonl`:**
+4. **Define queries in `data/queries.jsonl`:**
 
 ```json
-{"query": "Кто такой Мистер Икс?", "expected_keywords": ["директор", "аналитики"]}
+{"query": "Who is Mr. X?", "expected_keywords": ["director", "analytics"]}
 ```
 
-5. **Убедись, что есть `prompts/system_prompt.txt` с инструкцией**
+5. **Make sure `prompts/system_prompt.txt` contains your instruction**
 
 ---
 
-## 🧪 Генерация вопросов - positive/nagative/hallucination
+## 🧪 Question Generation - positive/negative/hallucination
 
 ```bash
 python generate_questions.py
-```bash
+```
 
 ---
 
-## 🧪 Один эксперимент
+## 🧪 Single Experiment
 
 ```bash
 python main.py run_chunk --config configs/eval_config.yaml
@@ -95,7 +95,7 @@ python main.py run_eval --config configs/eval_config.yaml --queries data/failed_
 
 ---
 
-## 🔁 Много экспериментов (sweep)
+## 🔁 Multiple Experiments (sweep)
 
 ```bash
 python main.py run_sweep --sweep configs/sweep_zip.yaml
@@ -104,15 +104,15 @@ python main.py summary
 
 ---
 
-## 📊 Оценка
+## 📊 Evaluation
 
-Метрика основана на:
+The scoring metric is based on:
 
-* `+1` — все ключевые слова найдены в ответе
-* `0` — найдена часть ключевых слов
-* `-1` — ни одно ключевое слово не найдено
+* `+1` — all expected keywords found in the answer
+* `0` — some keywords found
+* `-1` — no keywords found
 
-Выводится:
+Example output:
 
 ```text
 === Summary ===
@@ -121,29 +121,26 @@ python main.py summary
 
 ---
 
-## ⚠️ Важные замечания
+## ⚠️ Important Notes
 
-* `run_chunk` **всегда создаёт новую коллекцию** (уникальный `run_id`)
-* `run_eval` использует тот `run_id`, который соответствует текущему конфику
-* если конфигурация не меняется — можно повторно запускать `run_eval` без `run_chunk`
-
----
-
-## 📌 Планируемые улучшения
-
-* [ ] Кеширование эмбеддингов по hash документов
-* [ ] LLM-проверка «галлюцинаций» (контролируемый off-context response)
-* [ ] Графический анализ sweep-прогонов
-* [ ] Обёртка `run_all` для одного полного запуска
+* `run_chunk` **always creates a new collection** (unique `run_id`)
+* `run_eval` uses the `run_id` corresponding to the current config
+* if the config does not change — you can rerun `run_eval` without `run_chunk`
 
 ---
 
-## 🤝 Автор
+## 📌 Planned Improvements
 
-Система разработана для внутреннего тестирования RAG-систем.
-Вопросы: [e-mail:alx1379@gmail.com]
-
-```
+* [ ] Embedding caching by document hash
+* [ ] LLM hallucination check (controlled off-context response)
+* [ ] Graphical analysis of sweep runs
+* [ ] `run_all` wrapper for a full pipeline run
 
 ---
+
+## 🤝 Author
+
+This system was developed for internal RAG system testing.
+Contact: \[e-mail: [alx1379@gmail.com](mailto:alx1379@gmail.com)]
+
 ```
