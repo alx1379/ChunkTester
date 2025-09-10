@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.sqlite3
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Env
+.env
+.venv/
+venv/
+env/
+*.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# RAG Input
+data/source_docs/
+data/*.jsonl
+
+# RAG output
+results/
+embeddings/
+chroma.db/
+chroma/
+cache/
+
+# Data output
+*.jsonl.bak
+*.tmp
+
+# Notebooks
+*.ipynb_checkpoints
+
+# Logs
+logs/
+*.log
+

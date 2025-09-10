@@ -1,0 +1,21 @@
+# by_words: chunk_size and overlap in number of words
+# by_paragraphs: chunk_size in chars, overlap in words
+# by_sentences: chunk_size in chars, overlap in words
+# raw: chunk_size and overlap in chars
+
+sweep_mode: zip
+
+fixed:
+  embedding:
+    model: text-embedding-3-small
+
+sweep:
+  chunking.strategy: [by_paragraphs, by_paragraphs]
+  chunking.chunk_size: [1500, 1500]
+  chunking.overlap: [50, 50]
+  retrieval.top_k: [30, 20]
+  prompt.system_prompt_path:
+    - prompts/strong.txt
+    - prompts/strong.txt
+  clean_context_instructions: [false, false]
+  dialog_history: [0, 0]

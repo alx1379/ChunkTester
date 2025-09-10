@@ -1,0 +1,20 @@
+# by_words: chunk_size and overlap in number of words
+# by_paragraphs: chunk_size in chars, overlap in words
+# by_sentences: chunk_size in chars, overlap in words
+# raw: chunk_size and overlap in chars
+
+chunking:
+  strategy: by_paragraphs
+  chunk_size: 1500
+  overlap: 50
+
+retrieval:
+  top_k: 5
+
+embedding:
+  model: text-embedding-3-small
+
+prompt:
+  system_prompt_path: prompts/strong.txt
+
+dialog_history: 2

@@ -1,0 +1,28 @@
+TASK 1:
+
+Last run added system prompt, which reduced quality of answers from 0.84 to 0.66. 
+But now i should clean questions and improve expected answers to make cleaner run with new hard rag.
+
+=== Summary ===
+
+🟡 sweep_by_paragraphs_1500_50_20250625_175110: acc=0.66, halluc=0.00 | +1=36, 0=19, -1=0 | gen_tokens=2644136, embed_tokens=149308, calls=222
+🟡 sweep_by_paragraphs_1500_50_20250625_174643: acc=0.66, halluc=0.00 | +1=36, 0=19, -1=0 | gen_tokens=1583406, embed_tokens=74654, calls=111
+🟡 sweep_by_sentences_1500_50_20250625_170536: acc=0.74, halluc=0.02 | +1=41, 0=13, -1=1 | gen_tokens=4387688, embed_tokens=150112, calls=222
+🟡 sweep_by_paragraphs_1500_50_20250625_165955: acc=0.84, halluc=0.00 | +1=46, 0=9, -1=0 | gen_tokens=1578480, embed_tokens=74654, calls=111
+🟡 sweep_by_sentences_500_20_20250625_164531: acc=0.73, halluc=0.04 | +1=40, 0=13, -1=2 | gen_tokens=3895156, embed_tokens=152773, calls=222
+🟡 sweep_by_paragraphs_1500_50_20250625_163828: acc=0.78, halluc=0.00 | +1=43, 0=12, -1=0 | gen_tokens=2599520, embed_tokens=74654, calls=111
+🟡 sweep_by_words_150_10_20250625_162638: acc=0.84, halluc=0.00 | +1=46, 0=9, -1=0 | gen_tokens=3270374, embed_tokens=140963, calls=222
+🟡 sweep_by_paragraphs_1500_50_20250625_162112: acc=0.82, halluc=0.00 | +1=45, 0=10, -1=0 | gen_tokens=1577337, embed_tokens=74654, calls=111
+🔴 sweep_strong-shoot_20250625_160758: acc=0.49, halluc=0.00 | +1=27, 0=28, -1=0 | gen_tokens=550825, embed_tokens=217668, calls=333
+🔴 sweep_familiar-beach_20250625_160444: acc=0.62, halluc=0.00 | +1=34, 0=21, -1=0 | gen_tokens=478436, embed_tokens=140963, calls=222
+🔴 sweep_inconclusive-replacement_20250625_160119: acc=0.62, halluc=0.00 | +1=34, 0=21, -1=0 | gen_tokens=287132, embed_tokens=74654, calls=111
+
+BACKLOG:
+
+Add parallem run of eval (asking question to LLM at the same time), but need to consider flood limits.
+
+Beloew expected per one run per minutes (I migth have ~10-20). Limit is not for API key, it is per organization
+✅ Conclusion
+Usage	Your Load	Limit	OK?
+Requests/min	55	300	✅ OK
+Tokens/min	220,000	1,000,000	✅ OK
