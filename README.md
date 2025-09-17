@@ -6,6 +6,11 @@ It allows you to quickly evaluate the impact of different chunking strategies, e
 
 ---
 
+## Attribution
+This project was created by [Alex Erofeev](http://aigentto.com/) at [AIGENTTO](http://aigentto.com/).
+
+Licensed under the [Apache License 2.0](LICENSE).
+
 ## 📁 Project Structure
 
 chunktester/
